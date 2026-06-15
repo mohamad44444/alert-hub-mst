@@ -1,0 +1,34 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loader-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loader-service
+  template:
+    metadata:
+      labels:
+        app: loader-service
+    spec:
+      containers:
+        - name: loader-service
+          image: mohamad1111/loader-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8084
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loader-service
+spec:
+  type: NodePort
+  selector:
+    app: loader-service
+  ports:
+    - port: 8084
+      targetPort: 8084
+      nodePort: 30084
